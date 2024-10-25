@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Projetos</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 500px;
+            max-height: 80%; /* Para limitar a altura da lista */
+            overflow-y: auto; /* Adiciona scroll se necessário */
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .project {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex; /* Usando flexbox para alinhar itens */
+            justify-content: space-between; /* Espaça os itens */
+            align-items: center; /* Alinha verticalmente os itens */
+            background-color: #f0f0f0;
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        }
+
+        .project:hover {
+            background-color: #e0e0e0;
+        }
+
+        .back-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #45a049;
+        }
+
+        .delete-btn {
+            padding: 5px 10px; /* Botão menor */
+            background-color: #f44336; /* Cor do botão de excluir */
+            color: white;
+            border: none;
+            border-radius: 5px; /* Bordas arredondadas */
+            cursor: pointer;
+            font-size: 0.8em; /* Tamanho da fonte menor */
+            transition: background-color 0.3s; /* Efeito de transição */
+        }
+
+        .delete-btn:hover {
+            background-color: #e53935; /* Cor mais escura ao passar o mouse */
+        }
+
+        .description {
+            font-size: 0.9em; /* Tamanho da fonte da descrição */
+            color: #666; /* Cor da descrição */
+        }
+    </style>
+    <script>
+        function listarProjetos() {
+            const projectContainer = document.getElementById('project-list');
+            projectContainer.innerHTML = ''; // Limpa a lista antes de preencher
+
+            let projetos = JSON.parse(localStorage.getItem('projetos')) || [];
+
+            projetos.forEach((projeto, index) => {
+                const projectDiv = document.createElement('div');
+                projectDiv.classList.add('project');
+                projectDiv.innerHTML = `
+                    <div>
+                        <strong>${projeto.title}</strong> <br>
+                        <small class="description">${projeto.description || 'Descrição não disponível.'}</small> <!-- Exibe a descrição -->
+                        <small>Início: ${projeto.startDate} - Término: ${projeto.endDate}</small>
+                    </div>
+                    <button class="delete-btn" onclick="excluirProjeto(event, ${index})">Excluir</button>
+                `;
+                // Ação ao clicar no projeto para abrir detalhes
+                projectDiv.onclick = () => abrirDetalhesProjeto(index);
+                projectContainer.appendChild(projectDiv);
+            });
+        }
+
+        function abrirDetalhesProjeto(index) {
+            localStorage.setItem('projetoSelecionado', index); // Armazena o índice do projeto selecionado
+            window.location.href = '06cadastrotarefas.html'; // Redireciona para a página de detalhes do projeto
+        }
+
+        function excluirProjeto(event, index) {
+            event.stopPropagation(); // Impede que o clique no botão de excluir redirecione para a página de detalhes
+            let projetos = JSON.parse(localStorage.getItem('projetos')) || [];
+            projetos.splice(index, 1); // Remove o projeto da lista
+            localStorage.setItem('projetos', JSON.stringify(projetos)); // Atualiza o localStorage
+            listarProjetos(); // Atualiza a lista exibida
+        }
+
+        function voltar() {
+            window.history.back();
+        }
+
+        window.onload = function() {
+            listarProjetos(); // Lista os projetos quando a página é carregada
+        };
+    </script>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <h2>Lista de Projetos</h2>
+            <div id="project-list"></div>
+            <button class="back-btn" onclick="voltar()">Voltar</button>
+        </div>
+    </div>
+</body>
+</html>

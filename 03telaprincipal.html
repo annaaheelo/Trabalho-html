@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Principal</title>
+
+    <!-- Link para Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Organiza título e ícones em coluna */
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px; /* Espaço entre o título e os ícones */
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 15px; /* Espaço entre os botões */
+            align-items: center;
+            justify-content: space-around;
+            width: 80%; /* Ajuste dinâmico de largura */
+            max-width: 800px; /* Limita a largura máxima */
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; /* Ícone acima do texto */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 15px;
+            width: 140px; /* Botões mais delicados */
+            height: 110px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn i {
+            font-size: 2rem;
+            margin-bottom: 10px; /* Espaço entre ícone e texto */
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+        }
+
+        .btn-exit {
+            background-color: #f44336;
+        }
+
+        .btn-exit:hover {
+            background-color: #e53935;
+        }
+    </style>
+
+    <script>
+        function sair() {
+            window.location.href = '01login.html'; // Redireciona para a tela de login
+        }
+    </script>
+</head>
+<body>
+    <div class="background">
+        <!-- Título da Página -->
+        <div class="title">Tela Principal</div>
+
+        <!-- Botões com Ícones -->
+        <div class="container">
+            <button class="btn" onclick="window.location.href='04cadastroprojeto.html'">
+                <i class="fas fa-folder-plus"></i>
+                <span>Cadastrar Projeto</span>
+            </button>
+
+            <button class="btn" onclick="window.location.href='05listarprojetos.html'">
+                <i class="fas fa-list"></i>
+                <span>Listar Projetos</span>
+            </button>
+
+            <button class="btn" onclick="window.location.href='07listartarefas.html'">
+                <i class="fas fa-tasks"></i>
+                <span>Listar Tarefas</span>
+            </button>
+
+            <button class="btn btn-exit" onclick="sair()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

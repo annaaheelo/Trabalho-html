@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Principal</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-exit {
+            background-color: #f44336;
+        }
+
+        .btn-exit:hover {
+            background-color: #e53935;
+        }
+    </style>
+    <script>
+        function sair() {
+            window.location.href = 'index.html'; // Redireciona para a tela de login
+        }
+    </script>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <h2>Tela Principal</h2>
+            <button class="btn" onclick="window.location.href='cadastro_projeto.html'">Cadastrar Projeto</button>
+            <button class="btn" onclick="window.location.href='listar_projetos.html'">Listar Projetos</button>
+            <button class="btn" onclick="window.location.href='cadastro_tarefas.html'">Cadastrar Tarefas</button>
+            <button class="btn" onclick="window.location.href='listar_tarefas.html'">Listar Tarefas</button>
+            <button class="btn btn-exit" onclick="sair()">Sair</button>
+        </div>
+    </div>
+</body>
+</html>

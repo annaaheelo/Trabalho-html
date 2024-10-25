@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Tarefas</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function carregarProjeto() {
+            const projetoIndex = localStorage.getItem('projetoSelecionado');
+            const projetos = JSON.parse(localStorage.getItem('projetos')) || [];
+
+            if (projetoIndex !== null) {
+                const projeto = projetos[projetoIndex];
+                document.getElementById('project-title').textContent = `Projeto: ${projeto.title}`;
+            }
+        }
+
+        function cadastrarTarefa(event) {
+            event.preventDefault();
+
+            const tarefaInput = document.getElementById('tarefa').value;
+            const projetoIndex = localStorage.getItem('projetoSelecionado');
+
+            let tarefas = JSON.parse(localStorage.getItem(`tarefas_${projetoIndex}`)) || [];
+            tarefas.push(tarefaInput);
+
+            localStorage.setItem(`tarefas_${projetoIndex}`, JSON.stringify(tarefas));
+
+            alert('Tarefa cadastrada com sucesso!');
+            document.getElementById('tarefa-form').reset();
+        }
+
+        function voltar() {
+            window.history.back();
+        }
+
+        window.onload = carregarProjeto;
+    </script>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <h2 id="project-title">Projeto:</h2>
+            <form id="tarefa-form" onsubmit="cadastrarTarefa(event)">
+                <div class="input-group">
+                    <label for="tarefa">Descrição da Tarefa:</label>
+                    <input type="text" id="tarefa" name="tarefa" required>
+                </div>
+                <button type="submit" class="btn">Cadastrar Tarefa</button>
+                <button type="button" class="btn" onclick="voltar()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

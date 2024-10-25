@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Projeto</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg'); /* Substitua pelo caminho da sua imagem */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-group textarea {
+            resize: vertical; /* Permite redimensionar verticalmente */
+            height: 100px; /* Altura padrão */
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .success-message {
+            color: green; /* Cor da mensagem de sucesso */
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            margin-top: 10px;
+            background-color: #f44336; /* Cor do botão de voltar */
+        }
+
+        .back-btn:hover {
+            background-color: #e53935; /* Cor do botão de voltar ao passar o mouse */
+        }
+    </style>
+    <script>
+        function cadastrarProjeto(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            // Obtendo os valores inseridos
+            const titleInput = document.getElementById('title').value;
+            const descriptionInput = document.getElementById('description').value;
+            const startDateInput = document.getElementById('start-date').value;
+            const endDateInput = document.getElementById('end-date').value;
+
+            // Recupera os projetos já existentes ou inicializa um novo array
+            let projetos = JSON.parse(localStorage.getItem('projetos')) || [];
+
+            // Adicionando o projeto ao array
+            projetos.push({
+                title: titleInput,
+                description: descriptionInput,
+                startDate: startDateInput,
+                endDate: endDateInput
+            });
+
+            // Armazena o array atualizado no localStorage
+            localStorage.setItem('projetos', JSON.stringify(projetos));
+
+            // Mensagem de sucesso
+            const successMessage = document.getElementById('success-message');
+            successMessage.textContent = "Projeto cadastrado com sucesso!";
+
+            // Limpa os campos após o cadastro
+            // document.getElementById('project-form').reset(); // Removido para manter os dados
+        }
+
+        function voltar() {
+            window.history.back(); // Volta para a página anterior
+        }
+    </script>
+</head>
+<body>
+    <div class="background">
+        <div class="form-container">
+            <h2>Cadastro de Projeto</h2>
+            <form id="project-form" onsubmit="cadastrarProjeto(event)">
+                <div class="input-group">
+                    <label for="title">Título do Projeto:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="input-group">
+                    <label for="description">Descrição:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="start-date">Data de Início:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                </div>
+                <div class="input-group">
+                    <label for="end-date">Data de Término:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                </div>
+                <button type="submit" class="btn">Cadastrar</button>
+                <button type="button" class="btn back-btn" onclick="voltar()">Voltar</button>
+                <div id="success-message" class="success-message"></div> <!-- Área para exibir mensagem de sucesso -->
+            </form>
+        </div>
+    </div>
+</body>
+</html>

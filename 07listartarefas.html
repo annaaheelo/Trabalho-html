@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Tarefas</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            background-image: url('imagens/imagemreunião.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .task {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .btn:hover {
+            background-color: #e53935;
+        }
+
+        .back-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #45a049;
+        }
+
+        .project-info {
+            margin-bottom: 20px;
+        }
+
+        .project-details {
+            font-size: 0.9em; /* Tamanho da fonte da descrição */
+            color: #000000; /* Cor da descrição */
+        }
+    </style>
+    <script>
+        function carregarTarefas() {
+            const projetoIndex = localStorage.getItem('projetoSelecionado');
+            const projetos = JSON.parse(localStorage.getItem('projetos')) || [];
+            const tarefas = JSON.parse(localStorage.getItem(`tarefas_${projetoIndex}`)) || [];
+
+            if (projetoIndex !== null) {
+                const projeto = projetos[projetoIndex];
+                document.getElementById('project-title').textContent = `Projeto: ${projeto.title}`;
+                
+                // Exibe a descrição e as datas do projeto
+                const projectInfo = document.getElementById('project-info');
+                projectInfo.innerHTML = `
+                    <div class="project-details">
+                        <strong>Descrição:</strong> ${projeto.description || 'Não disponível.'} <br>
+                        <strong>Início:</strong> ${projeto.startDate} <br>
+                        <strong>Término:</strong> ${projeto.endDate}
+                    </div>
+                `;
+            }
+
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = ''; // Limpa a lista antes de renderizar
+
+            tarefas.forEach((tarefa, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.classList.add('task');
+                taskDiv.innerHTML = `
+                    <span>${tarefa}</span>
+                    <button class="btn" onclick="removerTarefa(${index})">Remover</button>
+                `;
+                taskList.appendChild(taskDiv);
+            });
+        }
+
+        function removerTarefa(index) {
+            const projetoIndex = localStorage.getItem('projetoSelecionado');
+            let tarefas = JSON.parse(localStorage.getItem(`tarefas_${projetoIndex}`)) || [];
+
+            if (confirm('Tem certeza que deseja remover esta tarefa?')) {
+                tarefas.splice(index, 1); // Remove a tarefa
+                localStorage.setItem(`tarefas_${projetoIndex}`, JSON.stringify(tarefas)); // Atualiza o localStorage
+                carregarTarefas(); // Atualiza a lista
+            }
+        }
+
+        function voltar() {
+            window.history.back();
+        }
+
+        window.onload = carregarTarefas;
+    </script>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <h2 id="project-title">Lista de tarefas</h2>
+            <div id="project-info" class="project-info"></div> <!-- Área para exibir informações do projeto -->
+            <div id="task-list"></div> <!-- Área para a lista de tarefas -->
+            <button class="back-btn" onclick="voltar()">Voltar</button>
+        </div>
+    </div>
+</body>
+</html>
